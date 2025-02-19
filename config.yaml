@@ -1,0 +1,28 @@
+## Basic setup
+project: trial
+scratch: /Users/pankaj/Documents/Metrosert/16S-workflow
+outputDIR: results
+metadata: metadata.tsv
+reportDIR: report
+
+
+# Temp directory
+tmp_dir: ./
+
+## Alpha diversity measures plotting
+target: disease_stat
+target_groups: # Groups in target attribute
+  - normal
+  - adenoma
+  - carcinoma
+colors:  # color for target groups
+  - green
+  - blue
+  - red
+alpha-measures: #Alpha measures to plot
+  - Shannon
+  - Chao1
+
+top-n: 5 # Number of genus, family or phylum to extract based on their abundance
+
+

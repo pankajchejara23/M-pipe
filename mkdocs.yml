@@ -1,0 +1,58 @@
+site_name: M-Pipe -- An automated report generator using relative abundance data
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.path
+    - navigation.footer
+  palette:
+    # Palette toggle for automatic mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default 
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to dark mode
+
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to light mode
+nav:
+  - Home: index.md
+  - Setup: setup.md
+  - M-Pipe: 
+    - workflow/m_pipe_intro.md
+    - Configuration: workflow/config.md
+    - Load configuration: workflow/load_config.md
+    - Phyloseq object: workflow/to_physeq.md
+    - Alpha diversity: workflow/alpha_plot.md
+    - Top-N taxa: workflow/top_n.md
+  - Execution: execution.md
+
+extra:
+  social:
+    - icon: fontawesome/brands/linkedin 
+      link: https://www.linkedin.com/in/pankaj-chejara-5ab77855/
+    - icon: fontawesome/brands/github
+      link: https://github.com/pankajchejara23
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+
+plugins:
+    - search
+    - mermaid2
+    - social
