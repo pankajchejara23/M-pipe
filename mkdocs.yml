@@ -1,5 +1,5 @@
-site_name: M-Pipe -- An automated report generator using relative abundance data
-
+site_name: "M-Pipe: A downstream analysis workflow using Snakemake"
+repo_url: https://github.com/pankajchejara23/M-pipe
 theme:
   name: material
   features:
@@ -8,6 +8,7 @@ theme:
     - navigation.footer
   palette:
     # Palette toggle for automatic mode
+    - primary: deep purple
     - media: "(prefers-color-scheme: light)"
       scheme: default 
       toggle:
@@ -43,16 +44,22 @@ extra:
 markdown_extensions:
   - admonition
   - pymdownx.details
-  - pymdownx.superfences
+  - pymdownx.superfences:
+        # make exceptions to highlighting of code:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:mermaid2.fence_mermaid_custom
   - pymdownx.highlight:
       anchor_linenums: true
       line_spans: __span
       pygments_lang_class: true
   - pymdownx.inlinehilite
   - pymdownx.snippets
-  - pymdownx.superfences
+  - pymdownx.blocks.caption
 
 plugins:
     - search
     - mermaid2
     - social
+    - glightbox
