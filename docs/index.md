@@ -1,5 +1,10 @@
 # M-Pipe: Automated report generation from relative abundance data 
-M-Pipe is a Snakemake workflow to automate the task of exploratory analysis of relative abundance data obtained from 16S amplicon sequences. This workflow takes Qiime2 artifacts as input, therefore, it seamlessly integrates in pipelines utilizing Qiime2. 
+M-Pipe is a **Snakemake workflow** designed to automate exploratory analysis of relative abundance data obtained from 16S amplicon sequences. It complements our **16S processing workflow**, which automates the processing of raw sequences. More details can be found [here](https://pankajchejara23.github.io/16S-workflow/).  
 
-M-Pipe generates a html report consising of key insights into microbial species present in the samples. The report provides an overview of main microbial species present in the samples, their compositional characteristics, association between target (e.g., CRC) and host characteristics, differential abundance, and statistical analysis among target groups. Additionally, the report also include the performance of a machine learning model to predict the target variable.
+M-Pipe takes [Qiime2](https://qiime2.org/) artifacts as input, ensuring seamless integration with pipelines utilizing Qiime2. It **generates an HTML report containing key insights** into the microbial species present in the samples.  
 
+The report provides:  
+- An overview of the main microbial species in the samples and their compositional characteristics.  
+- Associations between the target attribute (e.g., CRC) and host characteristics.  
+- Differential abundance analysis and statistical comparisons among target groups.  
+- Performance evaluation of a logistic regression model for predicting the target attribute.  

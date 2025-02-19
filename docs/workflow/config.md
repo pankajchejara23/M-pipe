@@ -14,3 +14,32 @@ The following table provides explanation for the configuration used in the pipel
 | **colors**        | Colors corresponding to target groups for visualization purposes (green, blue, red). The number of entries must be the same as the number of entries in target_groups. |
 | **alpha-measures**| Alpha diversity metrics to compute and plot. The pipeline supports the following measures: Shannon, Chao1, Simpson, InvSimpson, Fisher, ACE. Multiple values can be specified following `yaml` syntax. |
 | **top-n**         | Number of top genera, families, or phyla to extract based on abundance. |
+
+
+## Example config.yaml
+The below is an example of `config.yaml`.
+```{.yaml}
+## Basic setup
+project: trial
+scratch: /Users/pankaj/Documents/Metrosert/16S-workflow
+outputDIR: results
+metadata: metadata.tsv
+reportDIR: report
+
+## Alpha diversity measures plotting
+target: disease_stat
+target_groups: # Groups in target attribute
+  - normal
+  - adenoma
+  - carcinoma
+colors:  # color for target groups
+  - green
+  - blue
+  - red
+alpha-measures: #Alpha measures to plot
+  - Shannon
+  - Chao1
+
+top-n: 5 # Number of genus, family or phylum to extract based on their abundance
+
+```

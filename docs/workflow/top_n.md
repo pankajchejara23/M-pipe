@@ -1,6 +1,7 @@
 # Plot top-N abundant genera, families and phylums
 This step extract top abundant taxa based on genus, family and phylum, and generate a plot. To achieve this goal, we utilize `microbiomeutilities` package. 
 
+A **statistical test**, comparing taxa abundance among target groups, is also performed and results are added to the plot.
 
 ```{.python}
 
@@ -26,3 +27,6 @@ rule create_top_taxa:
           -o {output.top_genus} > {log} 2>&1
         """
 ```
+## Example plot
+The below figure illustrates **Top-5** most abundant microbial families in the dataset.
+![](../images/top.png)

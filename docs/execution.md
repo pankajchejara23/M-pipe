@@ -1,22 +1,17 @@
 # Execution
-This section guides you through running the workflow to compute relative abundance metrics for various microbial species.
+This section guides you through running the workflow to generate useful visualization and a summary report using qiime2 artifacts from our upstream pipeline.
 
 ## Clone the repository
 Clone the GitHub repository to access the scripts and configuration files needed for the workflow:
 ``` sh
-git clone https://github.com/pankajchejara23/16S-workflow
+git clone https://github.com/pankajchejara23/M-pipe
 ```
-## Download dataset
-Navigate to the cloned repository and download the dataset using the provided script:
-``` sh
-cd 16S-workflow
-sh ./scripts/downloader.sh
-```
+
 ## Create processing environment
 Set up the required Conda environment using the environment file:
 ``` sh
 conda env create -f environment.yml
-conda activate qiime2_snakemake
+conda activate downstream_env
 ```
 
 ## Configure Snakemake workflow
