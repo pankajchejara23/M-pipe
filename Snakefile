@@ -32,12 +32,15 @@ MIN = config['minimum']
 FORMULA = config['formula']
 REFERENCE = config['reference']
 
+
 compare_groups = [(REFERENCE,item) for item in TARGET_GROUPS if item != REFERENCE]
 
 output_files = []
+plot_files = []
 
 for group in compare_groups:
     output_files.append(OUTPUTDIR + "/" + RANK + "-" + ('-'.join(group)+'-deseq2.csv'))
+    plot_files.append(OUTPUTDIR + "/" + RANK + "-" + ('-'.join(group)+'-deseq2.pdf'))
 
 print(output_files)
 
@@ -58,7 +61,12 @@ rule all:
     top_genus = OUTPUTDIR + "/" + PROJ + "-top-" + str(N) + "-genus.pdf",
 
     # DESEQ2 results
-    *output_files
+    deseq2_taxa = OUTPUTDIR + "/" + RANK + "-taxa.csv",
+    *output_files,
+    *plot_files
+
+
+    
 
 ##########################################################
 #           CREATE PHYLOSEQ OBJECT
@@ -67,7 +75,7 @@ rule create_phyloseq:
     input:
         table = INPUTDIR + "/asv/" + PROJ + "-asv-table.qza",
         tree = INPUTDIR + "/asv/" + "tree/" + PROJ + "-rooted-tree.qza",
-        taxa = INPUTDIR + "/asv/" +  PROJ + "-tax_sklearn.qza",
+        taxa = INPUTDIR + "/asv/" +  PROJ + "-tax_sklearn.qza"
 
     output:
         phyloseq = OUTPUTDIR + "/" + PROJ + "-phyloseq.RDS"
@@ -131,7 +139,8 @@ rule diff_deseq2:
     input:
         phyloseq = OUTPUTDIR + "/" + PROJ + "-phyloseq.RDS",
     output:
-        output_files
+        *output_files,
+        deseq2_taxa = OUTPUTDIR + "/" + RANK + "-taxa.csv",
     log:
         OUTPUTDIR + "/log/" + "deseq2.log"
     shell:
@@ -142,5 +151,24 @@ rule diff_deseq2:
           -r {RANK} \
           -f {FORMULA} \
           -c {REFERENCE} \
+          -o {OUTPUTDIR} > {log} 2>&1
+        """
+
+##########################################################
+#          PLOT DESEQ2 results
+##########################################################
+rule plot_deseq2:
+    input:
+        taxa = OUTPUTDIR + "/" + RANK + "-taxa.csv",
+        output_files = output_files,
+    output:
+        plot_files
+    log:
+        OUTPUTDIR + "/log/" + "deseq2.log"
+    shell:
+        """
+        Rscript ./scripts/plot_deseq2.R -f {input.output_files} \
+          -r {REFERENCE} -t {TARGET_GROUPS} \
+          -x {input.taxa} \
           -o {OUTPUTDIR} > {log} 2>&1
         """
