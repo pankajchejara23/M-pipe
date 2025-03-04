@@ -1,13 +1,8 @@
 ## Basic setup
 project: trial
-scratch: /Users/pankaj/Documents/Metrosert/16S-workflow
-outputDIR: results
-metadata: metadata.tsv
-reportDIR: report
-
-
-# Temp directory
-tmp_dir: ./
+inputDIR: .
+outputDIR: ./results
+metadata: ./metadata.tsv
 
 ## Alpha diversity measures plotting
 target: disease_stat
@@ -22,7 +17,12 @@ colors:  # color for target groups
 alpha-measures: #Alpha measures to plot
   - Shannon
   - Chao1
-
+  - Simpson
+  - InvSimpson
 top-n: 5 # Number of genus, family or phylum to extract based on their abundance
 
-
+## Differential abundance testing config
+rank: Genus
+minimum: 10 # for pruning purposes
+formula: ~disease_stat
+reference: normal # this group is used as a reference to compare with 
