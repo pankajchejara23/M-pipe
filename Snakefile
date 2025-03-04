@@ -1,7 +1,7 @@
 # Snakemake file - input qiime2 artifacts to generate figures and report
 # Pankaj chejara
-# Last modified: 19th Feb 2025
-configfile: "config_downstream.yaml"
+# Last modified: 27th Feb 2025
+configfile: "config.yaml"
 
 
 import io
@@ -14,11 +14,11 @@ import pathlib
 ##########################################################
 
 PROJ = config["project"]
-SCRATCH = config["scratch"]
+INPUTDIR = config['inputDIR']
 OUTPUTDIR = config['outputDIR']
 METADATA = config["metadata"]
-REPORTDIR = config['reportDIR']
 
+# For Alpha plot
 TARGET = config['target']
 TARGET_GROUPS = config['target_groups']
 COLORS = config['colors']
@@ -26,43 +26,54 @@ ALPHA = config['alpha-measures']
 
 N = config['top-n']
 
+# For Deseq2
+RANK = config['rank']
+MIN = config['minimum']
+FORMULA = config['formula']
+REFERENCE = config['reference']
+
+compare_groups = [(REFERENCE,item) for item in TARGET_GROUPS if item != REFERENCE]
+
+output_files = []
+
+for group in compare_groups:
+    output_files.append(OUTPUTDIR + "/" + RANK + "-" + ('-'.join(group)+'-deseq2.csv'))
+
+print(output_files)
+
 rule all:
   input:
     # Dada2 results
-    table = SCRATCH + "/" + OUTPUTDIR + "/asv/" + PROJ + "-asv-table.qza",
-    
-    # Taxonomic table
-    sklearn = SCRATCH + "/" + OUTPUTDIR + "/asv/" +  PROJ + "-tax_sklearn.qza",
-    table_tsv = SCRATCH + "/" + OUTPUTDIR + "/asv/" + PROJ + "-asv-table.tsv",
-    table_tax = SCRATCH + "/" + OUTPUTDIR + "/asv/"  + "taxonomy.tsv",
-    # Phylogenetic outputs
-    rooted_tree = SCRATCH + "/" + OUTPUTDIR + "/asv/" + "tree/" + PROJ + "-rooted-tree.qza",
-    # Relative frequency 
-    rel_table_tsv = SCRATCH + "/" + OUTPUTDIR + "/asv/" +  PROJ + "-rel-freq-table.tsv",
+    table = INPUTDIR + "/asv/" + PROJ + "-asv-table.qza",
+    tree = INPUTDIR + "/asv/" + "tree/" + PROJ + "-rooted-tree.qza",
+    taxa = INPUTDIR + "/asv/" +  PROJ + "-tax_sklearn.qza",
 
-    # Phyloseq object
-    phyloseq = SCRATCH + "/" + REPORTDIR + "/" + PROJ + "-phyloseq.RDS",
+    # Phylogenetic outputs
+    phyloseq = OUTPUTDIR + "/" + PROJ + "-phyloseq.RDS",
 
     # Alpha diversity plots
-    alpha_plot = SCRATCH + "/" + REPORTDIR + "/" + PROJ + "-alpha-diversity-plot.pdf",
+    alpha_plot = OUTPUTDIR + "/" + PROJ + "-alpha-diversity-plot.pdf",
 
     # Top genus
-    top_genus = SCRATCH + "/" + REPORTDIR + "/" + PROJ + "-top-" + str(N) + "-genus.pdf"
+    top_genus = OUTPUTDIR + "/" + PROJ + "-top-" + str(N) + "-genus.pdf",
+
+    # DESEQ2 results
+    *output_files
 
 ##########################################################
 #           CREATE PHYLOSEQ OBJECT
 ##########################################################
 rule create_phyloseq:
     input:
-        table = SCRATCH + "/" + OUTPUTDIR + "/asv/" + PROJ + "-asv-table.qza",
-        tree = SCRATCH + "/" + OUTPUTDIR + "/asv/" + "tree/" + PROJ + "-rooted-tree.qza",
-        taxa = SCRATCH + "/" + OUTPUTDIR + "/asv/" +  PROJ + "-tax_sklearn.qza",
+        table = INPUTDIR + "/asv/" + PROJ + "-asv-table.qza",
+        tree = INPUTDIR + "/asv/" + "tree/" + PROJ + "-rooted-tree.qza",
+        taxa = INPUTDIR + "/asv/" +  PROJ + "-tax_sklearn.qza",
 
     output:
-        phyloseq = SCRATCH + "/" + REPORTDIR + "/" + PROJ + "-phyloseq.RDS"
+        phyloseq = OUTPUTDIR + "/" + PROJ + "-phyloseq.RDS"
 
     log:
-        SCRATCH + "/" + OUTPUTDIR + "/report/log/" + "create_phyloseq.log"
+        OUTPUTDIR + "/log/" + "create_phyloseq.log"
 
     shell:
         """
@@ -76,12 +87,12 @@ rule create_phyloseq:
 ##########################################################
 rule create_alpha_plot:
     input:
-        phyloseq = SCRATCH + "/" + REPORTDIR + "/" + PROJ + "-phyloseq.RDS",
+        phyloseq = OUTPUTDIR + "/" + PROJ + "-phyloseq.RDS",
     output:
-        alpha_plot = SCRATCH + "/" + REPORTDIR + "/" + PROJ + "-alpha-diversity-plot.pdf"
+        alpha_plot = OUTPUTDIR + "/" + PROJ + "-alpha-diversity-plot.pdf"
 
     log:
-        SCRATCH + "/" + OUTPUTDIR + "/report/log/" + "create_alpha_plot.log"
+        OUTPUTDIR + "/log/" + "create_alpha_plot.log"
 
     shell:
         """
@@ -96,14 +107,14 @@ rule create_alpha_plot:
 ##########################################################
 rule create_top_taxa:
     input:
-        phyloseq = SCRATCH + "/" + REPORTDIR + "/" + PROJ + "-phyloseq.RDS",
+        phyloseq = OUTPUTDIR + "/" + PROJ + "-phyloseq.RDS",
     output:
-        top_genus = SCRATCH + "/" + REPORTDIR + "/" + PROJ + "-top-" + str(N) + "-genus.pdf",
-        #top_family = SCRATCH + "/" + REPORTDIR + "/" + PROJ + "-top-" + N + "-families.pdf",
-        #top_phylum = SCRATCH + "/" + REPORTDIR + "/" + PROJ + "-top-" + N + "-phylums.pdf"
+        top_genus = OUTPUTDIR + "/" + PROJ + "-top-" + str(N) + "-genus.pdf",
+        #top_family = OUTPUTDIR + "/" + PROJ + "-top-" + N + "-families.pdf",
+        #top_phylum = OUTPUTDIR + "/" + PROJ + "-top-" + N + "-phylums.pdf"
 
     log:
-        SCRATCH + "/" + OUTPUTDIR + "/report/log/" + "create_top_taxa.log"
+        OUTPUTDIR + "/log/" + "create_top_taxa.log"
 
     shell:
         """
@@ -111,4 +122,25 @@ rule create_top_taxa:
           -t {TARGET} -g {TARGET_GROUPS} -c {COLORS}\
           -n {N} \
           -o {output.top_genus} > {log} 2>&1
+        """
+
+##########################################################
+#          PERFORM DIFFERENTIAL ABUNDANCE ANALYSIS USING DESEQ2
+##########################################################
+rule diff_deseq2:
+    input:
+        phyloseq = OUTPUTDIR + "/" + PROJ + "-phyloseq.RDS",
+    output:
+        output_files
+    log:
+        OUTPUTDIR + "/log/" + "deseq2.log"
+    shell:
+        """
+        Rscript ./scripts/diff_test.R -p {input.phyloseq} \
+          -t {TARGET} -g {TARGET_GROUPS} \
+          -m {MIN} \
+          -r {RANK} \
+          -f {FORMULA} \
+          -c {REFERENCE} \
+          -o {OUTPUTDIR} > {log} 2>&1
         """
