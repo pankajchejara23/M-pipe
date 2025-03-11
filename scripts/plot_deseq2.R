@@ -65,13 +65,18 @@ for (file in files) {
     df_filtered <- df_cleaned[df_cleaned$padj <= 0.05, ]
 
     # Sort on log2 fold change
-    df_sorted <- df_filtered[order(df_filtered$log2FoldChange), ]
+    df_sorted <- df_filtered[order(df_filtered$log2FoldChange, decreasing = TRUE), ]
+
+    # Create a new column for coloring based on log2FoldChange (green for positive, red for negative)
+    df_sorted$color <- ifelse(df_sorted$log2FoldChange > 0, "green", "red")
 
     # Create the plot
-    plot <- ggplot(df_sorted, aes(Genus, log2FoldChange)) + 
+    plot <- ggplot(df_sorted, aes(x=reorder(Genus, log2FoldChange), y=log2FoldChange,fill=color)) + 
             geom_bar(stat='identity') + 
+            scale_fill_manual(values = c("green" = "green", "red" = "red")) +
             coord_flip() +
-            ggtitle(paste("Differential Abundance -", group1, "vs", group2))
+            ggtitle(paste("Differential Abundance -", group1, "vs", group2)) +
+            theme(legend.position='none')
 
     ggsave(plot_file,plot,device='pdf')
 }
