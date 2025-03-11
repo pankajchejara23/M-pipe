@@ -10,7 +10,6 @@ library(phyloseq)
 library(microbiomeutilities)
 library(argparse)
 
-
 # Parsing command line arguments
 parser <- ArgumentParser(description= 'This script plot taxon abundance for top N genuses, families and phylums.')
 
@@ -22,7 +21,6 @@ parser$add_argument('--topn', '-n',help= 'Number of top taxa',type='integer')
 parser$add_argument('--output', '-o', help= 'Output file to store plot')
 
 xargs<- parser$parse_args()
-
 
 ## read phyloseq object
 phy <- readRDS(xargs$phyloseq)
