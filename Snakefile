@@ -38,11 +38,18 @@ compare_groups = [(REFERENCE,item) for item in TARGET_GROUPS if item != REFERENC
 output_files = []
 plot_files = []
 
+wil_output_files = []
+wil_plot_files = []
 for group in compare_groups:
+    # Files for Deseq2 results
     output_files.append(OUTPUTDIR + "/" + RANK + "-" + ('-'.join(group)+'-deseq2.csv'))
     plot_files.append(OUTPUTDIR + "/" + RANK + "-" + ('-'.join(group)+'-deseq2.pdf'))
 
-print(output_files)
+    # Files for Wilcoxon results
+    wil_output_files.append(OUTPUTDIR + "/" + RANK + "-" + ('-'.join(group)+'-wilcox.csv'))
+    #wil_plot_files.append(OUTPUTDIR + "/" + RANK + "-" + ('-'.join(group)+'-wilcox.pdf'))
+
+print(wil_output_files)
 
 rule all:
   input:
@@ -63,7 +70,8 @@ rule all:
     # DESEQ2 results
     deseq2_taxa = OUTPUTDIR + "/" + RANK + "-taxa.csv",
     *output_files,
-    *plot_files
+    *plot_files,
+    *wil_output_files
 
 
     
@@ -170,5 +178,27 @@ rule plot_deseq2:
         Rscript ./scripts/plot_deseq2.R -f {input.output_files} \
           -r {REFERENCE} -t {TARGET_GROUPS} \
           -x {input.taxa} \
+          -o {OUTPUTDIR} > {log} 2>&1
+        """
+
+
+##########################################################
+#          PERFORM WILCOXON RANK SUM TEST
+##########################################################
+
+rule diff_wilcoxon:
+    input:
+        phyloseq = OUTPUTDIR + "/" + PROJ + "-phyloseq.RDS",
+    output:
+        wil_output_files
+    log:
+        OUTPUTDIR + "/log/" + "wilcoxon.log"
+    shell:
+        """
+        Rscript ./scripts/diff_test_wilcoxon.R -p {input.phyloseq} \
+          -t {TARGET} -g {TARGET_GROUPS} \
+          -m {MIN} \
+          -r {RANK} \
+          -c {REFERENCE} \
           -o {OUTPUTDIR} > {log} 2>&1
         """
