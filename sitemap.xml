@@ -2,42 +2,54 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://pankajchejara23.github.io/M-pipe/</loc>
-         <lastmod>2025-02-19</lastmod>
+         <lastmod>2025-03-12</lastmod>
     </url>
     <url>
          <loc>https://pankajchejara23.github.io/M-pipe/dataset/</loc>
-         <lastmod>2025-02-19</lastmod>
+         <lastmod>2025-03-12</lastmod>
     </url>
     <url>
          <loc>https://pankajchejara23.github.io/M-pipe/execution/</loc>
-         <lastmod>2025-02-19</lastmod>
+         <lastmod>2025-03-12</lastmod>
     </url>
     <url>
          <loc>https://pankajchejara23.github.io/M-pipe/setup/</loc>
-         <lastmod>2025-02-19</lastmod>
+         <lastmod>2025-03-12</lastmod>
     </url>
     <url>
          <loc>https://pankajchejara23.github.io/M-pipe/workflow/alpha_plot/</loc>
-         <lastmod>2025-02-19</lastmod>
+         <lastmod>2025-03-12</lastmod>
     </url>
     <url>
          <loc>https://pankajchejara23.github.io/M-pipe/workflow/config/</loc>
-         <lastmod>2025-02-19</lastmod>
+         <lastmod>2025-03-12</lastmod>
+    </url>
+    <url>
+         <loc>https://pankajchejara23.github.io/M-pipe/workflow/deseq2/</loc>
+         <lastmod>2025-03-12</lastmod>
+    </url>
+    <url>
+         <loc>https://pankajchejara23.github.io/M-pipe/workflow/diff/</loc>
+         <lastmod>2025-03-12</lastmod>
     </url>
     <url>
          <loc>https://pankajchejara23.github.io/M-pipe/workflow/load_config/</loc>
-         <lastmod>2025-02-19</lastmod>
+         <lastmod>2025-03-12</lastmod>
     </url>
     <url>
          <loc>https://pankajchejara23.github.io/M-pipe/workflow/m_pipe_intro/</loc>
-         <lastmod>2025-02-19</lastmod>
+         <lastmod>2025-03-12</lastmod>
     </url>
     <url>
          <loc>https://pankajchejara23.github.io/M-pipe/workflow/to_physeq/</loc>
-         <lastmod>2025-02-19</lastmod>
+         <lastmod>2025-03-12</lastmod>
     </url>
     <url>
          <loc>https://pankajchejara23.github.io/M-pipe/workflow/top_n/</loc>
-         <lastmod>2025-02-19</lastmod>
+         <lastmod>2025-03-12</lastmod>
+    </url>
+    <url>
+         <loc>https://pankajchejara23.github.io/M-pipe/workflow/wilcox/</loc>
+         <lastmod>2025-03-12</lastmod>
     </url>
 </urlset>

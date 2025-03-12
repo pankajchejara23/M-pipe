@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://pankajchejara23.github.io/M-pipe/workflow/to_physeq/">
+        <link rel="canonical" href="https://pankajchejara23.github.io/M-pipe/workflow/deseq2/">
       
       
-        <link rel="prev" href="../load_config/">
+        <link rel="prev" href="../wilcox/">
       
       
-        <link rel="next" href="../alpha_plot/">
+        <link rel="next" href="../../execution/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>Phyloseq object - M-Pipe: A downstream analysis workflow using Snakemake</title>
+        <title>DESeq2 - M-Pipe: A downstream analysis workflow using Snakemake</title>
       
     
     
@@ -57,11 +57,11 @@
       
         <meta  property="og:type"  content="website" >
       
-        <meta  property="og:title"  content="Phyloseq object - M-Pipe: A downstream analysis workflow using Snakemake" >
+        <meta  property="og:title"  content="DESeq2 - M-Pipe: A downstream analysis workflow using Snakemake" >
       
         <meta  property="og:description"  content="None" >
       
-        <meta  property="og:image"  content="https://pankajchejara23.github.io/M-pipe/assets/images/social/workflow/to_physeq.png" >
+        <meta  property="og:image"  content="https://pankajchejara23.github.io/M-pipe/assets/images/social/workflow/deseq2.png" >
       
         <meta  property="og:image:type"  content="image/png" >
       
@@ -69,15 +69,15 @@
       
         <meta  property="og:image:height"  content="630" >
       
-        <meta  property="og:url"  content="https://pankajchejara23.github.io/M-pipe/workflow/to_physeq/" >
+        <meta  property="og:url"  content="https://pankajchejara23.github.io/M-pipe/workflow/deseq2/" >
       
         <meta  name="twitter:card"  content="summary_large_image" >
       
-        <meta  name="twitter:title"  content="Phyloseq object - M-Pipe: A downstream analysis workflow using Snakemake" >
+        <meta  name="twitter:title"  content="DESeq2 - M-Pipe: A downstream analysis workflow using Snakemake" >
       
         <meta  name="twitter:description"  content="None" >
       
-        <meta  name="twitter:image"  content="https://pankajchejara23.github.io/M-pipe/assets/images/social/workflow/to_physeq.png" >
+        <meta  name="twitter:image"  content="https://pankajchejara23.github.io/M-pipe/assets/images/social/workflow/deseq2.png" >
       
     
     
@@ -109,7 +109,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#qiime2-artifacts-into-phyloseq-object" class="md-skip">
+        <a href="#deseq2" class="md-skip">
           Skip to content
         </a>
       
@@ -143,7 +143,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Phyloseq object
+              DESeq2
             
           </span>
         </div>
@@ -517,19 +517,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../to_physeq/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -538,7 +529,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -590,6 +580,8 @@
                 
   
   
+    
+  
   
   
     
@@ -599,11 +591,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_7" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_7" checked>
         
           
           <label class="md-nav__link" for="__nav_3_7" id="__nav_3_7_label" tabindex="0">
@@ -617,7 +609,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_7_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_7_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3_7">
             <span class="md-nav__icon md-icon"></span>
             Differential abundance
@@ -670,10 +662,19 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../deseq2/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -682,6 +683,7 @@
   
 
       </a>
+      
     </li>
   
 
@@ -758,31 +760,52 @@
   
 
 
-<h1 id="qiime2-artifacts-into-phyloseq-object">Qiime2 artifacts into Phyloseq object</h1>
-<p>This is the first step in the <code>M-Pipe</code> which converts Qiime2 artifact produced by upstream analysis into a <code>phyloseq</code> object for subsequent processing. Phyloseq object is a particular way of storing abundance data along with taxonomy and metadata. </p>
-<p>The  <code>Phyloseq</code> R package provides the specification of this Phyloseq class and provides several useful functionalities for processing and visualization. Additionally, there are other R packages which provides an interface for the same object. Therefore, this step facilitates utilization of those packages for analysis purposes.</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">##########################################################</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="c1">#           CREATE PHYLOSEQ OBJECT</span>
+<h1 id="deseq2">DESeq2</h1>
+<p>DESeq2 is a powerful statistical tool designed for differential expression analysis, primarily used to evaluate the significance of differences in count-based data, such as RNA sequencing or microbial abundance datasets, between two or more target groups. Unlike traditional parametric methods, DESeq2 employs a negative binomial distribution to model variance, making it particularly well-suited for handling the overdispersion and sparsity often observed in high-throughput sequencing data.</p>
+<p><div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">##########################################################</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="c1">#          PERFORM DIFFERENTIAL ABUNDANCE ANALYSIS USING DESEQ2</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1">##########################################################</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">rule</span> <span class="n">create_phyloseq</span><span class="p">:</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">rule</span> <span class="n">diff_deseq2</span><span class="p">:</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="nb">input</span><span class="p">:</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>        <span class="n">table</span> <span class="o">=</span> <span class="n">SCRATCH</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">OUTPUTDIR</span> <span class="o">+</span> <span class="s2">&quot;/asv/&quot;</span> <span class="o">+</span> <span class="n">PROJ</span> <span class="o">+</span> <span class="s2">&quot;-asv-table.qza&quot;</span><span class="p">,</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>        <span class="n">tree</span> <span class="o">=</span> <span class="n">SCRATCH</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">OUTPUTDIR</span> <span class="o">+</span> <span class="s2">&quot;/asv/&quot;</span> <span class="o">+</span> <span class="s2">&quot;tree/&quot;</span> <span class="o">+</span> <span class="n">PROJ</span> <span class="o">+</span> <span class="s2">&quot;-rooted-tree.qza&quot;</span><span class="p">,</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>        <span class="n">taxa</span> <span class="o">=</span> <span class="n">SCRATCH</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">OUTPUTDIR</span> <span class="o">+</span> <span class="s2">&quot;/asv/&quot;</span> <span class="o">+</span>  <span class="n">PROJ</span> <span class="o">+</span> <span class="s2">&quot;-tax_sklearn.qza&quot;</span><span class="p">,</span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="n">output</span><span class="p">:</span>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>        <span class="n">phyloseq</span> <span class="o">=</span> <span class="n">SCRATCH</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">REPORTDIR</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">PROJ</span> <span class="o">+</span> <span class="s2">&quot;-phyloseq.RDS&quot;</span>
-</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
-</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    <span class="n">log</span><span class="p">:</span>
-</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>        <span class="n">SCRATCH</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">OUTPUTDIR</span> <span class="o">+</span> <span class="s2">&quot;/report/log/&quot;</span> <span class="o">+</span> <span class="s2">&quot;create_phyloseq.log&quot;</span>
-</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>
-</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>    <span class="n">shell</span><span class="p">:</span>
-</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="sd">        Rscript --no-save --no-restore --verbose ./scripts/to_physeq.R -f {input.table} \</span>
-</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="sd">          -t {input.tree} -x {input.taxa} \</span>
-</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="sd">          -m {METADATA} -o {output.phyloseq} &gt; {log} 2&gt;&amp;1</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>        <span class="n">phyloseq</span> <span class="o">=</span> <span class="n">OUTPUTDIR</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">PROJ</span> <span class="o">+</span> <span class="s2">&quot;-phyloseq.RDS&quot;</span><span class="p">,</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">output</span><span class="p">:</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>        <span class="o">*</span><span class="n">output_files</span><span class="p">,</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>        <span class="n">deseq2_taxa</span> <span class="o">=</span> <span class="n">OUTPUTDIR</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">RANK</span> <span class="o">+</span> <span class="s2">&quot;-taxa.csv&quot;</span><span class="p">,</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="n">log</span><span class="p">:</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>        <span class="n">OUTPUTDIR</span> <span class="o">+</span> <span class="s2">&quot;/log/&quot;</span> <span class="o">+</span> <span class="s2">&quot;deseq2.log&quot;</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    <span class="n">shell</span><span class="p">:</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="sd">        Rscript ./scripts/diff_test.R -p {input.phyloseq} \</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="sd">          -t {TARGET} -g {TARGET_GROUPS} \</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="sd">          -m {MIN} \</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="sd">          -r {RANK} \</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="sd">          -f {FORMULA} \</span>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="sd">          -c {REFERENCE} \</span>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="sd">          -o {OUTPUTDIR} &gt; {log} 2&gt;&amp;1</span>
 </span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="c1">##########################################################</span>
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="c1">#          PLOT DESEQ2 results</span>
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="c1">##########################################################</span>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="n">rule</span> <span class="n">plot_deseq2</span><span class="p">:</span>
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>    <span class="nb">input</span><span class="p">:</span>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>        <span class="n">taxa</span> <span class="o">=</span> <span class="n">OUTPUTDIR</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">RANK</span> <span class="o">+</span> <span class="s2">&quot;-taxa.csv&quot;</span><span class="p">,</span>
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>        <span class="n">output_files</span> <span class="o">=</span> <span class="n">output_files</span><span class="p">,</span>
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>    <span class="n">output</span><span class="p">:</span>
+</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a>        <span class="n">plot_files</span>
+</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a>    <span class="n">log</span><span class="p">:</span>
+</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a>        <span class="n">OUTPUTDIR</span> <span class="o">+</span> <span class="s2">&quot;/log/&quot;</span> <span class="o">+</span> <span class="s2">&quot;deseq2.log&quot;</span>
+</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a>    <span class="n">shell</span><span class="p">:</span>
+</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a><span class="sd">        Rscript ./scripts/plot_deseq2.R -f {input.output_files} \</span>
+</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a><span class="sd">          -r {REFERENCE} -t {TARGET_GROUPS} \</span>
+</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a><span class="sd">          -x {input.taxa} \</span>
+</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a><span class="sd">          -o {OUTPUTDIR} &gt; {log} 2&gt;&amp;1</span>
+</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a><span class="sd">        &quot;&quot;&quot;</span>
 </span></code></pre></div>
+The figures below show Genus level microbiome which were found significantly different between target groups. <br/></p>
+<p><a class="glightbox" href="../../images/Genus-normal-carcinoma-deseq2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../images/Genus-normal-carcinoma-deseq2.png" /></a>
+<a class="glightbox" href="../../images/Genus-normal-adenoma-deseq2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../../images/Genus-normal-adenoma-deseq2.png" /></a></p>
 
 
 
@@ -815,7 +838,7 @@
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../load_config/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Load configuration">
+          <a href="../wilcox/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Wilcoxon test">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -825,20 +848,20 @@
                 Previous
               </span>
               <div class="md-ellipsis">
-                Load configuration
+                Wilcoxon test
               </div>
             </div>
           </a>
         
         
           
-          <a href="../alpha_plot/" class="md-footer__link md-footer__link--next" aria-label="Next: Alpha diversity">
+          <a href="../../execution/" class="md-footer__link md-footer__link--next" aria-label="Next: Execution">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Alpha diversity
+                Execution
               </div>
             </div>
             <div class="md-footer__button md-icon">

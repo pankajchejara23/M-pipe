@@ -267,6 +267,44 @@
   </span>
 </a>
 </li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_3_7" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_7" id="__nav_3_7_label" tabindex="0">
+<span class="md-ellipsis">
+    Differential abundance
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_7_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_7">
+<span class="md-nav__icon md-icon"></span>
+            Differential abundance
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../diff/">
+<span class="md-ellipsis">
+    Differential abundance
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../wilcox/">
+<span class="md-ellipsis">
+    Wilcoxon test
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../deseq2/">
+<span class="md-ellipsis">
+    DESeq2
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
 </ul>
 </nav>
 </li>
@@ -296,9 +334,9 @@
 <p>This section provides a brief overview of our downstream pipeline. The pipeline has been built using the <strong>Snakemake</strong> workflow manager. Snakemake enables the automated execution of multiple steps integrated into the pipeline in a seamless manner. The figure below shows the steps integrated in the pipeline.</p>
 <p><pre class="mermaid"><code>graph TD;
     step-1("Qiime2 Artifacts to Phyloseq Object") --&gt; step-2("Compute &amp; Plot Alpha Diversity");
-    step-1("Qiime2 Artifacts to Phyloseq Object") --&gt; step-3("Identify &amp; Plot Top-N Abundant Taxa (Genus, Family, Phylum)");
-    step-2 --&gt; step-4["Generate Final Report"];
-    step-3 --&gt; step-4["Generate Final Report"];
+    step-2 --&gt; step-3("Identify &amp; Plot Top-N Abundant Taxa (Genus, Family, Phylum)");
+    step-3 --&gt; step-4("Perform differential analysis (DESeq2, Wilcoxon)");
+    step-4 --&gt; step-5("Plot key taxa");
 </code></pre>
 For our workflow, we use a single configuration file to specify the information needed during the pipeline's execution. We will delve deeper into the configuration file in the next chapter.  </p>
 </article>
