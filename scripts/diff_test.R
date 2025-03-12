@@ -19,7 +19,7 @@ parser$add_argument('--formula', '-f', help= 'Formula for deseq2')
 parser$add_argument('--case', '-c', help= 'Reference group for DEseq2 analysis')
 parser$add_argument('--minimum', '-m', help= 'Minimum counts for abundance for pruning purposes',type='integer')
 parser$add_argument('--rank', '-r', help= 'Taxa rank at which to perform test')
-parser$add_argument('--outputDir', '-o', help= 'Directory to store results')
+parser$add_argument('--output', '-o', help= 'Directory to store results')
 
 # Parsing args
 xargs<- parser$parse_args()

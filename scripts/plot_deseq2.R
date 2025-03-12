@@ -48,6 +48,7 @@ for (file in files) {
     groups <- unlist(strsplit(file_name, '-'))
 
     plot_file <- paste0(output, '/', file_name, '.pdf')
+    plot_file_png <- paste0(output, '/', file_name, '.png')
 
     group1 <- groups[2]
     group2 <- groups[3]
@@ -73,10 +74,11 @@ for (file in files) {
     # Create the plot
     plot <- ggplot(df_sorted, aes(x=reorder(Genus, log2FoldChange), y=log2FoldChange,fill=color)) + 
             geom_bar(stat='identity') + 
-            scale_fill_manual(values = c("green" = "green", "red" = "red")) +
+            scale_fill_manual(values = c("green" = "forestgreen", "red" = "firebrick3")) +
             coord_flip() +
             ggtitle(paste("Differential Abundance -", group1, "vs", group2)) +
             theme(legend.position='none')
 
     ggsave(plot_file,plot,device='pdf')
+    ggsave(plot_file_png,plot,device='png')
 }

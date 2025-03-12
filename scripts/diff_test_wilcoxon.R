@@ -85,6 +85,7 @@ for (compare_group in all_compare_groups) {
     # Adjusted p-value
     p_adjusted <- p.adjust(p_values, method="fdr")
     print(length(p_adjusted))
+    
     # Combine results with taxonomy
     results <- data.frame(
         Taxon = rownames(otu_df),
