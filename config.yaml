@@ -21,8 +21,11 @@ alpha-measures: #Alpha measures to plot
   - InvSimpson
 top-n: 5 # Number of genus, family or phylum to extract based on their abundance
 
-## Differential abundance testing config
+## Differential abundance testing config DESEq2
 rank: Genus
 minimum: 10 # for pruning purposes
 formula: ~disease_stat
 reference: normal # this group is used as a reference to compare with 
+
+## Differential abundance testing config ANCOM-BC
+ancom_formula: disease_stat

@@ -32,6 +32,8 @@ MIN = config['minimum']
 FORMULA = config['formula']
 REFERENCE = config['reference']
 
+# For ANCOM-BC
+ANCOM_FORMULA = config['ancom_formula']
 
 compare_groups = [(REFERENCE,item) for item in TARGET_GROUPS if item != REFERENCE]
 
@@ -40,6 +42,8 @@ plot_files = []
 
 wil_output_files = []
 wil_plot_files = []
+
+ancom_output_files = []
 for group in compare_groups:
     # Files for Deseq2 results
     output_files.append(OUTPUTDIR + "/" + RANK + "-" + ('-'.join(group)+'-deseq2.csv'))
@@ -49,7 +53,11 @@ for group in compare_groups:
     wil_output_files.append(OUTPUTDIR + "/" + RANK + "-" + ('-'.join(group)+'-wilcox.csv'))
     #wil_plot_files.append(OUTPUTDIR + "/" + RANK + "-" + ('-'.join(group)+'-wilcox.pdf'))
 
-print(wil_output_files)
+
+for group in TARGET_GROUPS:
+    if group != REFERENCE:
+        fname = OUTPUTDIR + "/" + TARGET + group +'-ancombc.csv'
+        ancom_output_files.append(fname)
 
 rule all:
   input:
@@ -71,7 +79,8 @@ rule all:
     deseq2_taxa = OUTPUTDIR + "/" + RANK + "-taxa.csv",
     *output_files,
     *plot_files,
-    *wil_output_files
+    *wil_output_files,
+    *ancom_output_files
 
 
     
@@ -183,7 +192,7 @@ rule plot_deseq2:
 
 
 ##########################################################
-#          PERFORM WILCOXON RANK SUM TEST
+#          PERFORM WILCOXON RANK SUM TEST [Statistical method likely to be biased due to the nature of compositional data]
 ##########################################################
 
 rule diff_wilcoxon:
@@ -199,6 +208,25 @@ rule diff_wilcoxon:
           -t {TARGET} -g {TARGET_GROUPS} \
           -m {MIN} \
           -r {RANK} \
+          -c {REFERENCE} \
+          -o {OUTPUTDIR} > {log} 2>&1
+        """
+
+##########################################################
+#          PERFORM DIFFERENTIAL ABUNDANCE ANALYSIS USING ANCOM-BC
+##########################################################
+rule diff_ancom:
+    input:
+        phyloseq = OUTPUTDIR + "/" + PROJ + "-phyloseq.RDS",
+    output:
+        *ancom_output_files,
+    log:
+        OUTPUTDIR + "/log/" + "ancombc.log"
+    shell:
+        """
+        Rscript ./scripts/diff_test_ancombc.R -p {input.phyloseq} \
+          -t {TARGET} -g {TARGET_GROUPS} \
+          -f {ANCOM_FORMULA} \
           -c {REFERENCE} \
           -o {OUTPUTDIR} > {log} 2>&1
         """
