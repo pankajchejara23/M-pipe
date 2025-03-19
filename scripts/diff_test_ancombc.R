@@ -54,14 +54,14 @@ taxa_table <- as.data.frame(tax_table(phy))
 
 taxa_table$taxon <- rownames(taxa_table)
 
-prepare_ancom_bc_results <- function(out, group_name) {
-    asv <- out$res$lfc$taxon
+prepare_ancom_bc_results <- function(out, group_name, taxa_table) {
+    taxon <- out$res$lfc$taxon
     lfc <- out$res$lfc[[group_name]]
     W <- out$res$W[[group_name]]
     p_val <- out$res$p_val[[group_name]]
     q_val <- out$res$q_val[[group_name]]
     diff_ab <- out$res$diff_abn[[group_name]]
-    df <- data.frame(ASV=asv, lfc=lfc, W=W, p_val=p_val, q_val=q_val,diff_ab = diff_ab)
+    df <- data.frame(taxon=taxon, lfc=lfc, W=W, p_val=p_val, q_val=q_val,diff_ab = diff_ab)
 
     full_df <- merge(df,taxa_table)
     return (full_df)
@@ -81,7 +81,7 @@ for (result_group in result_groups) {
  fname <- paste0(result_group,'.csv')
 
  # Fetch result for current result_group
- ancom_group_result <- prepare_ancom_bc_results(out, result_group)
+ ancom_group_result <- prepare_ancom_bc_results(out, result_group,taxa_table)
 
  # Save results
  fname <- file_path <- paste0(output, "/", result_group, "-ancombc.csv")

@@ -1,5 +1,11 @@
+## Script to build a classifier using LASSO
+# Author: Pankaj Chejara
+# Email: pankaj.chejara@metrosert.ee
+# Last modified: 19th March 2025
 import pandas as pd
 import numpy as np
+import json 
+import argparse
 
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LassoCV
@@ -9,7 +15,6 @@ import matplotlib.pyplot as plt
 from sklearn.linear_model import LassoCV
 from sklearn.metrics import roc_auc_score, roc_curve
 from sklearn.model_selection import train_test_split
-
 
 
 def get_specific_label(l, t):
@@ -110,6 +115,7 @@ def attach_labels(otu,meta,index_col, target_col, target_group):
     data['class'] = data[target_col].apply(lambda x: 1 if x == target_group else 0)
     return data.drop([target_col],axis=1)
 
+
 def get_data_from_pipeline_output(otu, meta, rank, index_col, target_col, target_group):
     """
     This function takes output files from upstream pipeline and processes them to prepare for ML step.
@@ -132,7 +138,8 @@ def get_data_from_pipeline_output(otu, meta, rank, index_col, target_col, target
     data = attach_labels(otu_agg,meta,index_col,target_col,target_group)
     return data.drop(['class'],axis=1), data['class']
 
-def lasso_cv_auc_plot(X, y, n_alphas=100, cv=5, random_state=42):
+
+def lasso_cv_auc_plot(X, y, plot_file, n_alphas=100, cv=5, random_state=42):
     """
     Perform LassoCV on X and y, compute AUC, and plot the ROC curve.
 
@@ -171,23 +178,26 @@ def lasso_cv_auc_plot(X, y, n_alphas=100, cv=5, random_state=42):
     plt.title("ROC Curve for LassoCV")
     plt.legend()
     plt.grid()
-    plt.show()
-
-    return auc
+    #plt.show()
+    plt.savefig(plot_file)
+    return {'lasso':lasso_cv, 'auc':auc}
 
 
 if __name__ == "__main__":
     # Set up argument parser
     parser = argparse.ArgumentParser(description="Microbiome Machine Learning Script")
-    parser.add_argument("otu", type=str, help="Path to OTU abundance TSV file")
-    parser.add_argument("taxa", type=str, help="Path to taxonomy TSV file")
-    parser.add_argument("meta", type=str, help="Path to metadata TSV file")
-    parser.add_argument("rank", type=str, help="Taxonomy rank to aggregate by (e.g., 'Genus')")
-    parser.add_argument("index_col", type=str, help="Column name in metadata containing sample identifiers")
-    parser.add_argument("target_col", type=str, help="Column name in metadata containing target labels")
-    parser.add_argument("target_group", type=str, help="Group in target_col to treat as class 1")
-    parser.add_argument("output", type=str, help="Output file to save auc plot")
 
+    # Add arguments with single-character flags
+    parser.add_argument("-o", "--otu", type=str, help="Path to OTU abundance TSV file", required=True)
+    parser.add_argument("-t", "--taxa", type=str, help="Path to taxonomy TSV file", required=True)
+    parser.add_argument("-m", "--meta", type=str, help="Path to metadata TSV file", required=True)
+    parser.add_argument("-r", "--rank", type=str, help="Taxonomy rank to aggregate by (e.g., 'Genus')", required=True)
+    parser.add_argument("-i", "--index_col", type=str, help="Column name in metadata containing sample identifiers", required=True)
+    parser.add_argument("-c", "--target_col", type=str, help="Column name in metadata containing target labels", required=True)
+    parser.add_argument("-g", "--target_group", type=str, help="Group in target_col to treat as class 1", required=True)
+    parser.add_argument("-p", "--plot_file", type=str, help="Output file to save AUC plot", required=True)
+    parser.add_argument("-f", "--report_file", type=str, help="Output file to save AUC plot", required=True)
+    
     # Parse arguments
     args = parser.parse_args()
 
@@ -200,4 +210,14 @@ if __name__ == "__main__":
     X,y = get_data_from_pipeline_output(otu,meta,args.rank,args.index_col,args.target_col,args.target_group)
 
     # Training LASSO and plotting AUC curve
-    lasso_cv_auc_plot(X,y,plot_file)
+    report = lasso_cv_auc_plot(X,y,args.plot_file)
+    coef = report['lasso'].coef_
+    feature_names = X.columns
+
+    feature_coef_dict = dict(zip(feature_names, coef))
+    feature_coef_dict['auc'] = report['auc']
+
+    with open(args.report_file, "w") as json_file:
+        json.dump(feature_coef_dict, json_file, indent=4) 
+
+
