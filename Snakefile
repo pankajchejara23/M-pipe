@@ -35,6 +35,13 @@ REFERENCE = config['reference']
 # For ANCOM-BC
 ANCOM_FORMULA = config['ancom_formula']
 
+
+# For ML step
+AGG_RANK = config['agg_rank']
+TARGET_GROUP = config['target_group']
+INDEX_COL=config['index_col']
+
+
 compare_groups = [(REFERENCE,item) for item in TARGET_GROUPS if item != REFERENCE]
 
 output_files = []
@@ -74,6 +81,10 @@ rule all:
 
     # Top genus
     top_genus = OUTPUTDIR + "/" + PROJ + "-top-" + str(N) + "-genus.pdf",
+
+    # ML step
+    report_file = OUTPUTDIR + '/'+ PROJ + '-ml-report.json',
+    plot_file = OUTPUTDIR + '/' + PROJ + '-ml-auc.png',
 
     # DESEQ2 results
     deseq2_taxa = OUTPUTDIR + "/" + RANK + "-taxa.csv",
@@ -229,4 +240,31 @@ rule diff_ancom:
           -f {ANCOM_FORMULA} \
           -c {REFERENCE} \
           -o {OUTPUTDIR} > {log} 2>&1
+        """
+
+
+##########################################################
+#          BUILD ML MODEL USING LASSO
+##########################################################
+rule build_model:
+    input:
+        otu = config['otu'],
+        meta = METADATA,
+        taxa = config['taxonomy']
+    output:
+        report_file = OUTPUTDIR + '/'+ PROJ + '-ml-report.json',
+        plot_file = OUTPUTDIR + '/' + PROJ + '-ml-auc.png',
+    log:
+        OUTPUTDIR + "/log/" + "ml-model.log"
+    shell:
+        """
+        Python ./scripts/build_model.py \
+          --otu {input.otu} \
+          --taxa {input.taxa} -m {input.meta} \
+          --rank {AGG_RANK} \
+          --index_col {INDEX_COL} \
+          --target_col {TARGET} \
+          --target_group {TARGET_GROUP} \
+          --plot_file {output.plot_file} \
+          --report_file {output.report_file} > {log} 2>&1
         """

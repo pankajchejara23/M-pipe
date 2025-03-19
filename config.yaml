@@ -3,6 +3,8 @@ project: trial
 inputDIR: .
 outputDIR: ./results
 metadata: ./metadata.tsv
+taxonomy: ./asv/taxonomy.tsv
+otu: ./asv/trial-asv-table.tsv
 
 ## Alpha diversity measures plotting
 target: disease_stat
@@ -29,3 +31,8 @@ reference: normal # this group is used as a reference to compare with
 
 ## Differential abundance testing config ANCOM-BC
 ancom_formula: disease_stat
+
+## Machine learning model config
+agg_rank: genus
+index_col: sample-id
+target_group: carcinoma
