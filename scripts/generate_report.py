@@ -7,7 +7,7 @@ def parse_arguments():
     parser = argparse.ArgumentParser(description="Generate an HTML microbiome report with given plot files.")
     parser.add_argument("--alpha_plot", required=True, help="Path to alpha diversity plot")
     parser.add_argument("--top_taxa_plot", required=True, help="Paths to top taxa plots (any number of files)")
-    #parser.add_argument("--differential_analysis", nargs='+', required=True, help="Path to differential analysis plot")
+    parser.add_argument("--diff_deseq2_plots", nargs='+', required=True, help="Path to differential analysis plot")
     #parser.add_argument("--differential_results", nargs='+', required=True, help="Path to differential analysis results file (CSV)")
     parser.add_argument("--auc_plot", required=True, help="Path to AUC plot for ML model performance")
     parser.add_argument("--auc_report", required=True, help="Path to model report ")
@@ -17,7 +17,6 @@ def parse_arguments():
 
 def generate_report(args):
     """Generate the HTML report using Jinja2 and user-provided file paths."""
-    print('ARGS:',args)
     
     # Get the directory of the current script (scripts/)
     script_dir = os.path.dirname(__file__)
@@ -37,7 +36,8 @@ def generate_report(args):
         "alpha_plot": args.alpha_plot,
         "top_taxa_plot": args.top_taxa_plot,  
         "auc_plot": args.auc_plot,
-        "auc_measure":.78
+        "auc_measure":.78,
+        "diff_deseq2_plots":args.diff_deseq2_plots
         
     }
 
