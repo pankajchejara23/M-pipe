@@ -2,9 +2,9 @@
 project: trial
 inputDIR: .
 outputDIR: ./results
-metadata: ./metadata.tsv
-taxonomy: ./asv/taxonomy.tsv
-otu: ./asv/trial-asv-table.tsv
+metadata: metadata.tsv
+taxonomy: asv/taxonomy.tsv
+otu: asv/trial-asv-table.tsv
 
 ## Alpha diversity measures plotting
 target: disease_stat
