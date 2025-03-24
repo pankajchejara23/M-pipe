@@ -97,7 +97,7 @@ for (compare_group in all_compare_groups) {
     results <- cbind(results,tax_df)
 
     # Prepare file name with full path
-    fname <- file_path <- paste0(output, "/", rank, "-", paste(compare_group, collapse = "-"), "-wilcox.csv")
+    fname <- file_path <- paste0(output, "/csv/", rank, "-", paste(compare_group, collapse = "-"), "-wilcox.csv")
 
     # Save results
     write.csv(results, fname)

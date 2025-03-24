@@ -47,8 +47,8 @@ for (file in files) {
     # Extract groups from file name
     groups <- unlist(strsplit(file_name, '-'))
 
-    plot_file <- paste0(output, '/', file_name, '.pdf')
-    plot_file_png <- paste0(output, '/', file_name, '.png')
+    #plot_file <- paste0(output, '/', file_name, '.pdf')
+    plot_file_png <- paste0(output, '/plot/', file_name, '.png')
 
     group1 <- groups[2]
     group2 <- groups[3]
@@ -79,6 +79,6 @@ for (file in files) {
             ggtitle(paste("Differential Abundance -", group1, "vs", group2)) +
             theme(legend.position='none')
 
-    ggsave(plot_file,plot,device='pdf')
+    #ggsave(plot_file,plot,device='pdf')
     ggsave(plot_file_png,plot,device='png')
 }

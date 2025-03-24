@@ -89,7 +89,7 @@ for (compare_group in all_compare_groups) {
     # Sort the results by log2 fold change
     res_sorted <- res[order(res$log2FoldChange, decreasing = TRUE), ]
 
-    fname <- file_path <- paste0(output, "/", rank, "-", paste(compare_group, collapse = "-"), "-deseq2.csv")
+    fname <- file_path <- paste0(output, "/csv/", rank, "-", paste(compare_group, collapse = "-"), "-deseq2.csv")
 
     # Save results
     write.csv(as.data.frame(res_sorted), fname)
@@ -97,5 +97,5 @@ for (compare_group in all_compare_groups) {
 }
 
 taxa <- tax_table(phy_filtered)
-taxa_file <- paste0(output, "/", rank, "-taxa.csv")
+taxa_file <- paste0(output, "/csv/", rank, "-taxa.csv")
 write.csv(as.data.frame(taxa),taxa_file)

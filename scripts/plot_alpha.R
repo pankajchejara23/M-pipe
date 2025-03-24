@@ -66,4 +66,4 @@ plot1 <- plot1 + stat_compare_means(
       method = "wilcox.test")
 
 # Save the plot
-ggsave(xargs$output,plot1,device='pdf')
+ggsave(xargs$output,plot1,device='png')

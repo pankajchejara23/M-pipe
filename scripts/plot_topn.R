@@ -65,4 +65,4 @@ plot1 <- plot1 + stat_compare_means(
       tip.length = 0.05,
       method = "wilcox.test")
 # Save the plot
-ggsave(xargs$output,plot1,width=14, height=7, units="in", dpi=300,device='pdf')
+ggsave(xargs$output,plot1,width=14, height=7, units="in", dpi=300,device='png')

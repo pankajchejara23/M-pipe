@@ -84,7 +84,7 @@ for (result_group in result_groups) {
  ancom_group_result <- prepare_ancom_bc_results(out, result_group,taxa_table)
 
  # Save results
- fname <- file_path <- paste0(output, "/", result_group, "-ancombc.csv")
+ fname <- file_path <- paste0(output, "/csv/", result_group, "-ancombc.csv")
  write.csv(ancom_group_result, fname)
 
 }
